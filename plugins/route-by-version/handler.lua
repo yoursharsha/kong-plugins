@@ -59,6 +59,7 @@ local function apply_rules(conf)
         kong.log.debug("Routing to: " .. ngx.var.upstream_scheme .. "://" ..
                            ngx.ctx.balancer_address.host .. ":" ..
                            ngx.ctx.balancer_address.port .. ngx.var.upstream_uri)
+        kong.service.request.set_header("host", ngx.ctx.balancer_address.host) 
     else
         kong.log.err("No version in range. Using default endpoint ")
         kong.response.exit(conf.error_response.status_code,
