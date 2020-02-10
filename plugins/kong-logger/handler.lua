@@ -56,8 +56,10 @@ function KongLoggerHandler:access(conf)
     KongLoggerHandler.super.access(self)
 
     local ctx = kong.ctx.plugin
+    ctx.request_data = {}
+    ctx.response_data = {}
+    
     local req = {}
-
     req['headers_incoming'] = try(kong.request.get_headers, catch_f)
 
     req['path'] = request.get_path()
@@ -138,7 +140,6 @@ function KongLoggerHandler:log(conf)
         end
     end
     kong.log.info("[Request lifecycle log]" .. jsonLog)
-    log.info(cjson.encode(tx))
 end
 
 KongLoggerHandler.PRIORITY = 1001
